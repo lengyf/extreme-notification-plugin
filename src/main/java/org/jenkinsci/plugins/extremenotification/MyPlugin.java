@@ -65,6 +65,14 @@ public class MyPlugin extends Plugin {
 	
 	public static final String JENKINS_JOB_DELETED = "jenkins.job.deleted";
 	
+	public static final String JENKINS_MATRIX_CONFIG_STARTED = "jenkins.matrix-config.started";
+	
+	public static final String JENKINS_MATRIX_CONFIG_COMPLETED = "jenkins.matrix-config.completed";
+	
+	public static final String JENKINS_MATRIX_CONFIG_FINALIZED = "jenkins.matrix-config.finalized";
+	
+	public static final String JENKINS_MATRIX_CONFIG_DELETED = "jenkins.matrix-config.deleted";
+	
 	public static final String JENKINS_SAVEABLE_CHANGE = "jenkins.saveable.change";
 	
 	public static final String JENKINS_SCM_CHANGELOG_PARSED = "jenkins.scm.changelog.parsed";
@@ -109,6 +117,9 @@ public class MyPlugin extends Plugin {
 		JENKINS_JOB_COMPLETED,
 		JENKINS_JOB_FINALIZED,
 		JENKINS_JOB_DELETED,
+		JENKINS_MATRIX_CONFIG_STARTED,
+		JENKINS_MATRIX_CONFIG_COMPLETED,
+		JENKINS_MATRIX_CONFIG_FINALIZED,
 		JENKINS_SAVEABLE_CHANGE,
 		JENKINS_SCM_CHANGELOG_PARSED,
 		JENKINS_SCM_POLL_BEFORE,
