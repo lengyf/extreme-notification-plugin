@@ -30,13 +30,16 @@ public class WebHookNotificationEndpoint extends NotificationEndpoint {
 	
 	private String url;
 	
+	private long timeout;
+	
 	public WebHookNotificationEndpoint() {
 		
 	}
 	
 	@DataBoundConstructor
-	public WebHookNotificationEndpoint(String url) {
-		setUrl(url);
+	public WebHookNotificationEndpoint(String url, long timeout) {
+		this.url = url;
+		this.timeout = timeout;
 	}
 	
 	public String getUrl() {
@@ -45,6 +48,14 @@ public class WebHookNotificationEndpoint extends NotificationEndpoint {
 	
 	public void setUrl(String url) {
 		this.url = url;
+	}
+	
+	public long getTimeout() {
+		return timeout;
+	}
+	
+	public void setTimeout(long timeout) {
+		this.timeout = timeout;
 	}
 	
 	@Override
@@ -71,7 +82,7 @@ public class WebHookNotificationEndpoint extends NotificationEndpoint {
 				public void run() {
 					method.abort();
 				}
-			}, 5, TimeUnit.SECONDS);
+			}, this.timeout, TimeUnit.SECONDS);
 			try {
 				final HttpResponse response = client.execute(method);
 				LOGGER.log(Level.FINE, "{0} status {1}", new Object[] {url, response});
