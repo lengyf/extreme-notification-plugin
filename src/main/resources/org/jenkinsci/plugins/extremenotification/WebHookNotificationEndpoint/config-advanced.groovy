@@ -7,5 +7,5 @@ f.entry(title:_("URL"), field:"url") {
 }
 
 f.entry(title:_("Timeout"), field:"timeout") {
-	f.number(default: -1)
+	f.number(default: 30)
 }
