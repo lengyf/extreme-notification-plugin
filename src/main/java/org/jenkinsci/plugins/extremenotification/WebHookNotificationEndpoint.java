@@ -6,6 +6,7 @@ import hudson.Extension;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -78,7 +79,8 @@ public class WebHookNotificationEndpoint extends NotificationEndpoint {
 			final HttpClient client = new DefaultHttpClient();
 			HttpConnectionParams.setStaleCheckingEnabled(client.getParams(), true);
 			final HttpGet method = new HttpGet(localUrl);
-			Executors.newScheduledThreadPool(1).schedule(new Runnable() {
+			ScheduledExecutorService singleThreadPool = Executors.newScheduledThreadPool(1);
+			singleThreadPool.schedule(new Runnable() {
 				public void run() {
 					method.abort();
 				}
@@ -90,6 +92,7 @@ public class WebHookNotificationEndpoint extends NotificationEndpoint {
 				LOGGER.log(Level.SEVERE, "communication failure: {0}", e.getMessage());
 			} finally {
 				method.releaseConnection();
+				singleThreadPool.shutdownNow();
 			}
 		} catch (URIException e) {
 			LOGGER.log(Level.SEVERE, "malformed URL: {}", url);
