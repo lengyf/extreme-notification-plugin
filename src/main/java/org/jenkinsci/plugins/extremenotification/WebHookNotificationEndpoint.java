@@ -87,7 +87,7 @@ public class WebHookNotificationEndpoint extends NotificationEndpoint {
 			}, this.timeout, TimeUnit.SECONDS);
 			try {
 				final HttpResponse response = client.execute(method);
-				LOGGER.log(Level.FINE, "{0} status {1}", new Object[] {url, response});
+				LOGGER.log(Level.FINE, "{0} status {1}", new Object[] {localUrl, response});
 			} catch (IOException e) {
 				LOGGER.log(Level.SEVERE, "communication failure: {0}", e.getMessage());
 			} finally {
