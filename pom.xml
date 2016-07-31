@@ -7,7 +7,7 @@
   </parent>
 
   <artifactId>extreme-notification</artifactId>
-  <version>1.2-SNAPSHOT</version>
+  <version>1.2</version>
   <packaging>hpi</packaging>
   <name>Jenkins Extreme Notification Plugin</name>
   <description>Provides endpoints to notify about most events that happens in the server, including builds and SCM</description>
