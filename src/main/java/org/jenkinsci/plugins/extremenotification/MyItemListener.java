@@ -7,6 +7,7 @@ import static org.jenkinsci.plugins.extremenotification.MyPlugin.JENKINS_ITEM_RE
 import static org.jenkinsci.plugins.extremenotification.MyPlugin.JENKINS_ITEM_UPDATED;
 import static org.jenkinsci.plugins.extremenotification.MyPlugin.JENKINS_LOADED;
 import static org.jenkinsci.plugins.extremenotification.MyPlugin.JENKINS_SHUTDOWN;
+import static org.jenkinsci.plugins.extremenotification.MyPlugin.JENKINS_COMPLETED;
 import hudson.Extension;
 import hudson.model.Item;
 import hudson.model.listeners.ItemListener;
@@ -38,8 +39,12 @@ public class MyItemListener extends ItemListener {
 				"item", item
 		));
 	}
-	
+
+	@Override
 	public void onLoaded() {
+		// We process COMPLETED event here since we cannot hook on COMPLETED due to JENKINS-37759.
+		MyPlugin.notify(new MyPlugin.Event(JENKINS_COMPLETED));
+		// And then invoke common notification for this event
 		MyPlugin.notify(new MyPlugin.Event(JENKINS_LOADED));
 	}
 	

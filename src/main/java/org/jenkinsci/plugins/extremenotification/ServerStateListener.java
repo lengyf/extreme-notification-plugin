@@ -47,8 +47,14 @@ public class ServerStateListener {
 	public static void jobLoaded() throws IOException {
 		MyPlugin.notify(new MyPlugin.Event(JENKINS_JOBS_LOADED));
 	}
-	
-	@Initializer(after=InitMilestone.COMPLETED)
+
+	/**
+	 * Notifies about initialization completion.
+	 * It is not an initializer, because we cannot hook on {@link InitMilestone#COMPLETED} due to
+	 * <a href="https://issues.jenkins-ci.org/browse/JENKINS-37759">JENKINS-37759</>.
+	 * @deprecated The implementation has been moved to {@link MyItemListener#onLoaded()}, which is the nearest hook available.
+	 * @throws IOException Notification processing error
+     */
 	public static void completed() throws IOException {
 		MyPlugin.notify(new MyPlugin.Event(JENKINS_COMPLETED));
 	}
