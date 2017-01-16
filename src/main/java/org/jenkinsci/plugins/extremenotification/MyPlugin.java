@@ -27,77 +27,77 @@ public class MyPlugin extends Plugin {
 	
 	private static final Logger LOGGER = Logger.getLogger(MyPlugin.class.getName());
 	
-	public static final String JENKINS_BUILD_STEP_START = "jenkins.build.step.start";
+	static final String JENKINS_BUILD_STEP_START = "jenkins.build.step.start";
 	
-	public static final String JENKINS_BUILD_STEP_FINISH = "jenkins.build.step.finish";
+	static final String JENKINS_BUILD_STEP_FINISH = "jenkins.build.step.finish";
 
-	public static final String JENKINS_COMPUTER_CONFIGURATION = "jenkins.computer.configuration";
+	static final String JENKINS_COMPUTER_CONFIGURATION = "jenkins.computer.configuration";
 	
-	public static final String JENKINS_COMPUTER_FAILURE = "jenkins.computer.failure";
+	static final String JENKINS_COMPUTER_FAILURE = "jenkins.computer.failure";
 	
-	public static final String JENKINS_COMPUTER_OFFLINE = "jenkins.computer.offline";
+	static final String JENKINS_COMPUTER_OFFLINE = "jenkins.computer.offline";
 
-	public static final String JENKINS_COMPUTER_ONLINE = "jenkins.computer.online";
+	static final String JENKINS_COMPUTER_ONLINE = "jenkins.computer.online";
 	
-	public static final String JENKINS_COMPUTER_TEMPORARILY_OFFLINE = "jenkins.computer.temporarily-offline";
+	static final String JENKINS_COMPUTER_TEMPORARILY_OFFLINE = "jenkins.computer.temporarily-offline";
 	
-	public static final String JENKINS_COMPUTER_TEMPORARILY_ONLINE = "jenkins.computer.temporarily-online";
+	static final String JENKINS_COMPUTER_TEMPORARILY_ONLINE = "jenkins.computer.temporarily-online";
 
-	public static final String JENKINS_SHUTDOWN = "jenkins.shutdown";
+	static final String JENKINS_SHUTDOWN = "jenkins.shutdown";
 	
-	public static final String JENKINS_ITEM_COPIED = "jenkins.item.copied";
+	static final String JENKINS_ITEM_COPIED = "jenkins.item.copied";
 	
-	public static final String JENKINS_ITEM_CREATED = "jenkins.item.created";
+	static final String JENKINS_ITEM_CREATED = "jenkins.item.created";
 	
-	public static final String JENKINS_ITEM_DELETED = "jenkins.item.deleted";
+	static final String JENKINS_ITEM_DELETED = "jenkins.item.deleted";
 	
-	public static final String JENKINS_LOADED = "jenkins.loaded";
+	static final String JENKINS_LOADED = "jenkins.loaded";
 	
-	public static final String JENKINS_ITEM_RENAMED = "jenkins.item.renamed";
+	static final String JENKINS_ITEM_RENAMED = "jenkins.item.renamed";
 	
-	public static final String JENKINS_ITEM_UPDATED = "jenkins.item.updated";
+	static final String JENKINS_ITEM_UPDATED = "jenkins.item.updated";
 
-	public static final String JENKINS_JOB_STARTED = "jenkins.job.started";
+	static final String JENKINS_JOB_STARTED = "jenkins.job.started";
 	
-	public static final String JENKINS_JOB_COMPLETED = "jenkins.job.completed";
+	static final String JENKINS_JOB_COMPLETED = "jenkins.job.completed";
 	
-	public static final String JENKINS_JOB_FINALIZED = "jenkins.job.finalized";
+	static final String JENKINS_JOB_FINALIZED = "jenkins.job.finalized";
 	
-	public static final String JENKINS_JOB_DELETED = "jenkins.job.deleted";
+	static final String JENKINS_JOB_DELETED = "jenkins.job.deleted";
 	
-	public static final String JENKINS_MATRIX_CONFIG_STARTED = "jenkins.matrix-config.started";
+	static final String JENKINS_MATRIX_CONFIG_STARTED = "jenkins.matrix-config.started";
 	
-	public static final String JENKINS_MATRIX_CONFIG_COMPLETED = "jenkins.matrix-config.completed";
+	 static final String JENKINS_MATRIX_CONFIG_COMPLETED = "jenkins.matrix-config.completed";
 	
-	public static final String JENKINS_MATRIX_CONFIG_FINALIZED = "jenkins.matrix-config.finalized";
+	static final String JENKINS_MATRIX_CONFIG_FINALIZED = "jenkins.matrix-config.finalized";
 	
-	public static final String JENKINS_MATRIX_CONFIG_DELETED = "jenkins.matrix-config.deleted";
+	static final String JENKINS_MATRIX_CONFIG_DELETED = "jenkins.matrix-config.deleted";
 	
-	public static final String JENKINS_SAVEABLE_CHANGE = "jenkins.saveable.change";
+	static final String JENKINS_SAVEABLE_CHANGE = "jenkins.saveable.change";
 	
-	public static final String JENKINS_SCM_CHANGELOG_PARSED = "jenkins.scm.changelog.parsed";
+	static final String JENKINS_SCM_CHANGELOG_PARSED = "jenkins.scm.changelog.parsed";
 
-	public static final String JENKINS_SCM_POLL_BEFORE = "jenkins.scm.poll.before";
+	static final String JENKINS_SCM_POLL_BEFORE = "jenkins.scm.poll.before";
 	
-	public static final String JENKINS_SCM_POLL_SUCCESS = "jenkins.scm.poll.success";
+	static final String JENKINS_SCM_POLL_SUCCESS = "jenkins.scm.poll.success";
 	
-	public static final String JENKINS_SCM_POLL_FAILED = "jenkins.scm.poll.failed";
+	static final String JENKINS_SCM_POLL_FAILED = "jenkins.scm.poll.failed";
 
-	public static final String JENKINS_STARTED = "jenkins.started";
+	static final String JENKINS_STARTED = "jenkins.started";
 	
-	public static final String JENKINS_PLUGINS_LISTED = "jenkins.plugins.listed";
+	static final String JENKINS_PLUGINS_LISTED = "jenkins.plugins.listed";
 	
-	public static final String JENKINS_PLUGINS_PREPARED = "jenkins.plugins.prepared";
+	static final String JENKINS_PLUGINS_PREPARED = "jenkins.plugins.prepared";
 	
-	public static final String JENKINS_PLUGINS_STARTED = "jenkins.plugins.started";
+	static final String JENKINS_PLUGINS_STARTED = "jenkins.plugins.started";
 	
-	public static final String JENKINS_PLUGINS_AUGMENTED = "jenkins.plugins.augmented";
+	static final String JENKINS_PLUGINS_AUGMENTED = "jenkins.plugins.augmented";
 	
-	public static final String JENKINS_JOBS_LOADED = "jenkins.jobs.loaded";
+	static final String JENKINS_JOBS_LOADED = "jenkins.jobs.loaded";
 	
-	public static final String JENKINS_COMPLETED = "jenkins.completed";
+	static final String JENKINS_COMPLETED = "jenkins.completed";
 	
-	public static final String[] ENDPOINTS = new String[] {
+	static final String[] ENDPOINTS = new String[] {
 		JENKINS_BUILD_STEP_START,
 		JENKINS_BUILD_STEP_FINISH,
 		JENKINS_COMPUTER_CONFIGURATION,
@@ -144,7 +144,7 @@ public class MyPlugin extends Plugin {
 	
 	@Initializer(after = PLUGINS_STARTED)
 	public static void init() {
-		instance = Jenkins.getInstance().getPlugin(MyPlugin.class);
+		instance = Jenkins.getActiveInstance().getPlugin(MyPlugin.class);
 	}
 	
 	private DescribableList<NotificationEndpoint, Descriptor<NotificationEndpoint>> endpoints = new DescribableList<NotificationEndpoint, Descriptor<NotificationEndpoint>>(this);

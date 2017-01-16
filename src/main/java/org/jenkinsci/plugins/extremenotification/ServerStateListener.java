@@ -51,7 +51,7 @@ public class ServerStateListener {
 	/**
 	 * Notifies about initialization completion.
 	 * It is not an initializer, because we cannot hook on {@link InitMilestone#COMPLETED} due to
-	 * <a href="https://issues.jenkins-ci.org/browse/JENKINS-37759">JENKINS-37759</>.
+	 * <a href="https://issues.jenkins-ci.org/browse/JENKINS-37759">JENKINS-37759</a>.
 	 * @deprecated The implementation has been moved to {@link MyItemListener#onLoaded()}, which is the nearest hook available.
 	 * @throws IOException Notification processing error
      */

@@ -24,7 +24,7 @@ import com.google.common.collect.Maps;
 public abstract class NotificationEndpoint extends AbstractDescribableImpl<NotificationEndpoint> implements ExtensionPoint {
 	
 	public static DescriptorExtensionList<NotificationEndpoint, Descriptor<NotificationEndpoint>> all() {
-        return Jenkins.getInstance().getDescriptorList(NotificationEndpoint.class);
+        return Jenkins.getActiveInstance().getDescriptorList(NotificationEndpoint.class);
     }
 	
 	public abstract void notify(Event event);
