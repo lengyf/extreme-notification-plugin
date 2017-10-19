@@ -1,29 +1,36 @@
 package org.jenkinsci.plugins.extremenotification;
 
 import groovy.lang.Binding;
-import groovy.lang.GroovyShell;
 import hudson.DescriptorExtensionList;
 import hudson.ExtensionPoint;
 import hudson.model.AbstractDescribableImpl;
 import hudson.model.Descriptor;
 import hudson.util.ListBoxModel;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import jenkins.model.Jenkins;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.jenkinsci.plugins.extremenotification.ExtremeNotificationPlugin.Event;
+import org.jenkinsci.plugins.scriptsecurity.sandbox.groovy.SecureGroovyScript;
+import org.jenkinsci.plugins.scriptsecurity.scripts.ApprovalContext;
+import org.jenkinsci.plugins.scriptsecurity.scripts.ClasspathEntry;
 import org.kohsuke.stapler.StaplerRequest;
 
 import com.google.common.collect.Maps;
 
 public abstract class NotificationEndpoint extends AbstractDescribableImpl<NotificationEndpoint> implements ExtensionPoint {
+
+	private static final Logger LOGGER = Logger.getLogger(NotificationEndpoint.class.getName());
 	
 	public static DescriptorExtensionList<NotificationEndpoint, Descriptor<NotificationEndpoint>> all() {
-        return Jenkins.getActiveInstance().getDescriptorList(NotificationEndpoint.class);
+        return Jenkins.getInstance().getDescriptorList(NotificationEndpoint.class);
     }
 	
 	public abstract void notify(Event event);
@@ -43,11 +50,17 @@ public abstract class NotificationEndpoint extends AbstractDescribableImpl<Notif
 	protected String interpolate(String value, Event event, Map<String, Object> extraArgs) {
 		final Map<String, Object> args = Maps.newHashMap(event.getArgs());
 		args.putAll(extraArgs);
-		final GroovyShell shell = new GroovyShell(new Binding(args));
-		return shell.evaluate('"' + value + '"').toString();
+		SecureGroovyScript script = new SecureGroovyScript('"' + value + '"', true, new ArrayList<ClasspathEntry>());
+		try {
+			script.configuring(ApprovalContext.create());
+			return script.evaluate(ExtremeNotificationPlugin.class.getClassLoader(), new Binding(args)).toString();
+		} catch (Exception e) {
+			LOGGER.log(Level.WARNING, "Invalid message", e);
+			return value;
+		}
 	}
 	
-	public static abstract class DescriptorImpl extends Descriptor<NotificationEndpoint> {
+	public abstract static class DescriptorImpl extends Descriptor<NotificationEndpoint> {
 		
         public ListBoxModel doFillEndpointsItems() {
         	final ListBoxModel listBoxModel = new ListBoxModel();
@@ -59,7 +72,7 @@ public abstract class NotificationEndpoint extends AbstractDescribableImpl<Notif
         
         @Override
         public NotificationEndpoint newInstance(StaplerRequest req, JSONObject formData) throws hudson.model.Descriptor.FormException {
-        	final NotificationEndpoint instance = (NotificationEndpoint) super.newInstance(req, formData);
+        	final NotificationEndpoint instance = super.newInstance(req, formData);
         	
         	final JSONObject events = formData.getJSONObject("events");
         	if (!events.isNullObject()) {
@@ -85,7 +98,7 @@ public abstract class NotificationEndpoint extends AbstractDescribableImpl<Notif
         
     }
 	
-	public static interface EndpointEventCustom {
+	public interface EndpointEventCustom {
 		
 	}
 	

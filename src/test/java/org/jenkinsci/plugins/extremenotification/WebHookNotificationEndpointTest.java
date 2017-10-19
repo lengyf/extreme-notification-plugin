@@ -8,6 +8,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.jvnet.hudson.test.JenkinsRule;
 
 import java.util.logging.Level;
 import java.util.logging.LogManager;
@@ -23,6 +24,9 @@ public class WebHookNotificationEndpointTest {
 
     private TestLogHandler logHandler;
     private WebHookNotificationEndpoint notificationEndpoint;
+
+    @Rule
+    public JenkinsRule j = new JenkinsRule();
 
     @Rule
     public WireMockRule webHook = new WireMockRule(

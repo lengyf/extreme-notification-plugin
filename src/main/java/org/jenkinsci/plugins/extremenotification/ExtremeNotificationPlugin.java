@@ -19,6 +19,7 @@ import jenkins.model.Jenkins;
 import net.sf.json.JSONObject;
 
 import org.jenkinsci.plugins.extremenotification.NotificationEndpoint.EndpointEvent;
+import org.jenkinsci.plugins.scriptsecurity.sandbox.whitelists.Whitelisted;
 import org.kohsuke.stapler.StaplerRequest;
 
 import com.google.common.collect.Maps;
@@ -215,11 +216,13 @@ public class ExtremeNotificationPlugin extends Plugin {
 		public Long getTimestamp() {
 			return timestamp;
 		}
-		
+
+		@Whitelisted
 		public String getName() {
 			return name;
 		}
-		
+
+		@Whitelisted
 		public Map<String, Object> getArgs() {
 			return args;
 		}

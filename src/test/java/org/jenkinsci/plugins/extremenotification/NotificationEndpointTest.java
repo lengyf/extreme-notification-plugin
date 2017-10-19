@@ -1,7 +1,11 @@
 package org.jenkinsci.plugins.extremenotification;
 
-import junit.framework.TestCase;
 import org.jenkinsci.plugins.extremenotification.testutil.Sample;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.jvnet.hudson.test.JenkinsRule;
 
 import java.util.Map;
 
@@ -12,16 +16,17 @@ import static org.junit.Assert.assertTrue;
  * Created by daniel.burgmann on 19.02.16 20:17
  */
 
-public class NotificationEndpointTest extends TestCase {
+public class NotificationEndpointTest {
 
     NotificationEndpoint notificationEndpoint;
     ExtremeNotificationPlugin.Event event;
     Map<String, Object> extraArgs;
 
-    @Override
-    public void setUp() throws Exception {
-        super.setUp();
+    @Rule
+    public JenkinsRule j = new JenkinsRule();
 
+    @Before
+    public void setUp() throws Exception {
         notificationEndpoint = new NotificationEndpoint() {
             @Override
             public void notify(ExtremeNotificationPlugin.Event event) {
@@ -36,16 +41,14 @@ public class NotificationEndpointTest extends TestCase {
         extraArgs = Sample.extraArgs();
     }
 
-    @Override
+    @After
     public void tearDown() throws Exception {
         event = null;
         notificationEndpoint = null;
-
-        super.tearDown();
     }
 
+    @Test
     public void testInterpolate() {
-
         String interpolated;
 
         interpolated = notificationEndpoint.interpolate("value", event);
