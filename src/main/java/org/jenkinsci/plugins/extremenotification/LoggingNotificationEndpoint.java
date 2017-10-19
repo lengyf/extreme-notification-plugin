@@ -8,7 +8,7 @@ import java.util.logging.Logger;
 
 import net.sf.json.JSONObject;
 
-import org.jenkinsci.plugins.extremenotification.MyPlugin.Event;
+import org.jenkinsci.plugins.extremenotification.ExtremeNotificationPlugin.Event;
 import org.kohsuke.stapler.DataBoundConstructor;
 
 @Extension

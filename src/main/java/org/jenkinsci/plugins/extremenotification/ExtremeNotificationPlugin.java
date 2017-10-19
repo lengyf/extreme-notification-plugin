@@ -23,9 +23,9 @@ import org.kohsuke.stapler.StaplerRequest;
 
 import com.google.common.collect.Maps;
 
-public class MyPlugin extends Plugin {
+public class ExtremeNotificationPlugin extends Plugin {
 	
-	private static final Logger LOGGER = Logger.getLogger(MyPlugin.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(ExtremeNotificationPlugin.class.getName());
 	
 	static final String JENKINS_BUILD_STEP_START = "jenkins.build.step.start";
 	
@@ -134,7 +134,7 @@ public class MyPlugin extends Plugin {
 		JENKINS_COMPLETED
 	};
 	
-	private static MyPlugin instance;
+	private static ExtremeNotificationPlugin instance;
 
 	public static void notify(Event event) {
 		if (instance != null) {
@@ -144,7 +144,7 @@ public class MyPlugin extends Plugin {
 	
 	@Initializer(after = PLUGINS_STARTED)
 	public static void init() {
-		instance = Jenkins.getActiveInstance().getPlugin(MyPlugin.class);
+		instance = Jenkins.getActiveInstance().getPlugin(ExtremeNotificationPlugin.class);
 	}
 	
 	private DescribableList<NotificationEndpoint, Descriptor<NotificationEndpoint>> endpoints = new DescribableList<NotificationEndpoint, Descriptor<NotificationEndpoint>>(this);

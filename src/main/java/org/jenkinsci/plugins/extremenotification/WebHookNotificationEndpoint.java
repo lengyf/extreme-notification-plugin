@@ -19,7 +19,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.HttpConnectionParams;
-import org.jenkinsci.plugins.extremenotification.MyPlugin.Event;
+import org.jenkinsci.plugins.extremenotification.ExtremeNotificationPlugin.Event;
 import org.kohsuke.stapler.DataBoundConstructor;
 
 import com.google.common.collect.Maps;

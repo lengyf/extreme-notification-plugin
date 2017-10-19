@@ -1,4 +1,4 @@
 <?jelly escape-by-default='true'?>
 <div>
-  This plugin is a sample to explain how to write a Jenkins plugin.
+  This plugin can notify some endpoints about events that occur in Jenkins
 </div>

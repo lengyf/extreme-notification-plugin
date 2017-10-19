@@ -15,7 +15,7 @@ import static org.junit.Assert.assertTrue;
 public class NotificationEndpointTest extends TestCase {
 
     NotificationEndpoint notificationEndpoint;
-    MyPlugin.Event event;
+    ExtremeNotificationPlugin.Event event;
     Map<String, Object> extraArgs;
 
     @Override
@@ -24,11 +24,11 @@ public class NotificationEndpointTest extends TestCase {
 
         notificationEndpoint = new NotificationEndpoint() {
             @Override
-            public void notify(MyPlugin.Event event) {
+            public void notify(ExtremeNotificationPlugin.Event event) {
             }
 
             @Override
-            public void notify(MyPlugin.Event event, EndpointEvent endpointEvent) {
+            public void notify(ExtremeNotificationPlugin.Event event, EndpointEvent endpointEvent) {
             }
         };
 

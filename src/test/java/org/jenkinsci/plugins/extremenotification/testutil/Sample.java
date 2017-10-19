@@ -1,6 +1,6 @@
 package org.jenkinsci.plugins.extremenotification.testutil;
 
-import org.jenkinsci.plugins.extremenotification.MyPlugin;
+import org.jenkinsci.plugins.extremenotification.ExtremeNotificationPlugin;
 
 import java.util.Hashtable;
 import java.util.Map;
@@ -12,8 +12,8 @@ public final class Sample {
     private Sample() {
     }
 
-    public static MyPlugin.Event event() {
-        return new MyPlugin.Event("testEvent", "argFoo", "foo", "argBar", "bar");
+    public static ExtremeNotificationPlugin.Event event() {
+        return new ExtremeNotificationPlugin.Event("testEvent", "argFoo", "foo", "argBar", "bar");
     }
 
     public static Map<String, Object> extraArgs() {

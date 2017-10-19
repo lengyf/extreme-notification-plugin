@@ -15,8 +15,7 @@ import jenkins.model.Jenkins;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
-import org.codehaus.groovy.runtime.GStringImpl;
-import org.jenkinsci.plugins.extremenotification.MyPlugin.Event;
+import org.jenkinsci.plugins.extremenotification.ExtremeNotificationPlugin.Event;
 import org.kohsuke.stapler.StaplerRequest;
 
 import com.google.common.collect.Maps;
@@ -52,7 +51,7 @@ public abstract class NotificationEndpoint extends AbstractDescribableImpl<Notif
 		
         public ListBoxModel doFillEndpointsItems() {
         	final ListBoxModel listBoxModel = new ListBoxModel();
-        	for (String endpoint : MyPlugin.ENDPOINTS) {
+        	for (String endpoint : ExtremeNotificationPlugin.ENDPOINTS) {
         		listBoxModel.add(endpoint);
         	}
 			return listBoxModel;
