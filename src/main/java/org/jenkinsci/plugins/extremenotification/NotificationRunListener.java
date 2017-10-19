@@ -15,20 +15,20 @@ import hudson.model.Run;
 import hudson.model.listeners.RunListener;
 import jenkins.YesNoMaybe;
 
-@Extension(dynamicLoadable=YesNoMaybe.YES)
+@Extension(dynamicLoadable=YesNoMaybe.YES, optional = true)
 public class NotificationRunListener extends RunListener<Run<?, ?>> {
 
 	@Override
 	public void onStarted(Run<?, ?> run, TaskListener listener) {
-		ExtremeNotificationPlugin.notify(new ExtremeNotificationPlugin.Event(run instanceof MatrixRun ? JENKINS_MATRIX_CONFIG_STARTED : JENKINS_JOB_STARTED,
+		ExtremeNotificationPlugin.notify(new ExtremeNotificationPlugin.Event(isInstance(run) ? JENKINS_MATRIX_CONFIG_STARTED : JENKINS_JOB_STARTED,
 				"run", run, 
 				"listener", listener
 		));
 	}
-	
+
 	@Override
 	public void onCompleted(Run<?, ?> run, TaskListener listener) {
-		ExtremeNotificationPlugin.notify(new ExtremeNotificationPlugin.Event(run instanceof MatrixRun ? JENKINS_MATRIX_CONFIG_COMPLETED : JENKINS_JOB_COMPLETED,
+		ExtremeNotificationPlugin.notify(new ExtremeNotificationPlugin.Event(isInstance(run) ? JENKINS_MATRIX_CONFIG_COMPLETED : JENKINS_JOB_COMPLETED,
 				"run", run, 
 				"listener", listener
 		));
@@ -36,16 +36,20 @@ public class NotificationRunListener extends RunListener<Run<?, ?>> {
 	
 	@Override
 	public void onFinalized(Run<?, ?> run) {
-		ExtremeNotificationPlugin.notify(new ExtremeNotificationPlugin.Event(run instanceof MatrixRun ? JENKINS_MATRIX_CONFIG_FINALIZED : JENKINS_JOB_FINALIZED,
+		ExtremeNotificationPlugin.notify(new ExtremeNotificationPlugin.Event(isInstance(run) ? JENKINS_MATRIX_CONFIG_FINALIZED : JENKINS_JOB_FINALIZED,
 				"run", run
 		));
 	}
 	
 	@Override
 	public void onDeleted(Run<?, ?> run) {
-		ExtremeNotificationPlugin.notify(new ExtremeNotificationPlugin.Event(run instanceof MatrixRun ? JENKINS_MATRIX_CONFIG_DELETED : JENKINS_JOB_DELETED,
+		ExtremeNotificationPlugin.notify(new ExtremeNotificationPlugin.Event(isInstance(run) ? JENKINS_MATRIX_CONFIG_DELETED : JENKINS_JOB_DELETED,
 				"run", run
 		));
+	}
+
+	private static boolean isInstance(Run<?, ?> run) {
+		return MatrixRun.class.isInstance(run);
 	}
 	
 }
