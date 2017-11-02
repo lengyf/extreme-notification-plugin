@@ -65,7 +65,21 @@ public class ExtremeNotificationPlugin extends Plugin {
 	static final String JENKINS_JOB_FINALIZED = "jenkins.job.finalized";
 	
 	static final String JENKINS_JOB_DELETED = "jenkins.job.deleted";
-	
+
+	static final String JENKINS_QUEUE_ENTER_WAITING = "jenkins.queue.enter.waiting";
+
+	static final String JENKINS_QUEUE_LEAVE_WAITING = "jenkins.queue.leave.waiting";
+
+	static final String JENKINS_QUEUE_ENTER_BLOCKED = "jenkins.queue.enter.blocked";
+
+	static final String JENKINS_QUEUE_LEAVE_BLOCKED = "jenkins.queue.leave.blocked";
+
+	static final String JENKINS_QUEUE_ENTER_BUILDABLE = "jenkins.queue.enter.buildable";
+
+	static final String JENKINS_QUEUE_LEAVE_BUILDABLE = "jenkins.queue.leave.buildable";
+
+	static final String JENKINS_QUEUE_ONLEFT = "jenkins.queue.onleft";
+
 	static final String JENKINS_MATRIX_CONFIG_STARTED = "jenkins.matrix-config.started";
 	
 	 static final String JENKINS_MATRIX_CONFIG_COMPLETED = "jenkins.matrix-config.completed";
@@ -118,6 +132,13 @@ public class ExtremeNotificationPlugin extends Plugin {
 		JENKINS_JOB_COMPLETED,
 		JENKINS_JOB_FINALIZED,
 		JENKINS_JOB_DELETED,
+		JENKINS_QUEUE_ENTER_WAITING,
+		JENKINS_QUEUE_LEAVE_WAITING,
+		JENKINS_QUEUE_ENTER_BLOCKED,
+		JENKINS_QUEUE_LEAVE_BLOCKED,
+		JENKINS_QUEUE_ENTER_BUILDABLE,
+		JENKINS_QUEUE_LEAVE_BUILDABLE,
+		JENKINS_QUEUE_ONLEFT,
 		JENKINS_MATRIX_CONFIG_STARTED,
 		JENKINS_MATRIX_CONFIG_COMPLETED,
 		JENKINS_MATRIX_CONFIG_FINALIZED,
