@@ -6,10 +6,10 @@ import hudson.init.Initializer;
 import hudson.model.Descriptor;
 import hudson.model.Descriptor.FormException;
 import hudson.util.DescribableList;
+import jenkins.util.Timer;
 
 import java.io.IOException;
 import java.util.Map;
-import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -214,7 +214,7 @@ public class ExtremeNotificationPlugin extends Plugin {
 	}
 
 	private void start(Runnable runnable) {
-		Executors.newSingleThreadExecutor().submit(runnable);
+		Timer.get().submit(runnable);
 	}
 	
 	public static final class Event {
