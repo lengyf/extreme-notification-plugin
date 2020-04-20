@@ -27,6 +27,20 @@ import com.google.common.collect.Maps;
 public class ExtremeNotificationPlugin extends Plugin {
 	
 	private static final Logger LOGGER = Logger.getLogger(ExtremeNotificationPlugin.class.getName());
+
+	static final String JENKINS_ITEM_CREATED = "job_created";
+
+	static final String JENKINS_ITEM_DELETED = "job_deleted";
+
+	static final String JENKINS_ITEM_UPDATED = "job_updated";
+
+	static final String JENKINS_ITEM_RENAMED = "job_renamed";
+
+	static final String JENKINS_JOB_STARTED = "job_started";
+
+	static final String JENKINS_JOB_FINALIZED = "job_finalized";
+
+
 	
 	static final String JENKINS_BUILD_STEP_START = "jenkins.build.step.start";
 	
@@ -46,23 +60,11 @@ public class ExtremeNotificationPlugin extends Plugin {
 
 	static final String JENKINS_SHUTDOWN = "jenkins.shutdown";
 	
-	static final String JENKINS_ITEM_COPIED = "jenkins.item.copied";
-	
-	static final String JENKINS_ITEM_CREATED = "jenkins.item.created";
-	
-	static final String JENKINS_ITEM_DELETED = "jenkins.item.deleted";
-	
+	static final String JENKINS_ITEM_COPIED = "jenkins.job.copied";
+
 	static final String JENKINS_LOADED = "jenkins.loaded";
 	
-	static final String JENKINS_ITEM_RENAMED = "jenkins.item.renamed";
-	
-	static final String JENKINS_ITEM_UPDATED = "jenkins.item.updated";
-
-	static final String JENKINS_JOB_STARTED = "jenkins.job.started";
-	
 	static final String JENKINS_JOB_COMPLETED = "jenkins.job.completed";
-	
-	static final String JENKINS_JOB_FINALIZED = "jenkins.job.finalized";
 	
 	static final String JENKINS_JOB_DELETED = "jenkins.job.deleted";
 
@@ -112,48 +114,12 @@ public class ExtremeNotificationPlugin extends Plugin {
 	
 	static final String JENKINS_COMPLETED = "jenkins.completed";
 	
-	static final String[] ENDPOINTS = new String[] {
-		JENKINS_BUILD_STEP_START,
-		JENKINS_BUILD_STEP_FINISH,
-		JENKINS_COMPUTER_CONFIGURATION,
-		JENKINS_COMPUTER_FAILURE,
-		JENKINS_COMPUTER_OFFLINE,
-		JENKINS_COMPUTER_ONLINE,
-		JENKINS_COMPUTER_TEMPORARILY_OFFLINE,
-		JENKINS_COMPUTER_TEMPORARILY_ONLINE,
-		JENKINS_SHUTDOWN,
-		JENKINS_ITEM_COPIED,
-		JENKINS_ITEM_CREATED,
-		JENKINS_ITEM_DELETED,
-		JENKINS_LOADED,
-		JENKINS_ITEM_RENAMED,
-		JENKINS_ITEM_UPDATED,
-		JENKINS_JOB_STARTED,
-		JENKINS_JOB_COMPLETED,
-		JENKINS_JOB_FINALIZED,
-		JENKINS_JOB_DELETED,
-		JENKINS_QUEUE_ENTER_WAITING,
-		JENKINS_QUEUE_LEAVE_WAITING,
-		JENKINS_QUEUE_ENTER_BLOCKED,
-		JENKINS_QUEUE_LEAVE_BLOCKED,
-		JENKINS_QUEUE_ENTER_BUILDABLE,
-		JENKINS_QUEUE_LEAVE_BUILDABLE,
-		JENKINS_QUEUE_ONLEFT,
-		JENKINS_MATRIX_CONFIG_STARTED,
-		JENKINS_MATRIX_CONFIG_COMPLETED,
-		JENKINS_MATRIX_CONFIG_FINALIZED,
-		JENKINS_SAVEABLE_CHANGE,
-		JENKINS_SCM_CHANGELOG_PARSED,
-		JENKINS_SCM_POLL_BEFORE,
-		JENKINS_SCM_POLL_SUCCESS,
-		JENKINS_SCM_POLL_FAILED,
-		JENKINS_STARTED,
-		JENKINS_PLUGINS_LISTED,
-		JENKINS_PLUGINS_PREPARED,
-		JENKINS_PLUGINS_STARTED,
-		JENKINS_PLUGINS_AUGMENTED,
-		JENKINS_JOBS_LOADED,
-		JENKINS_COMPLETED
+	static final String[] ENDPOINTS = new String[]{
+			JENKINS_ITEM_CREATED,
+			JENKINS_ITEM_DELETED,
+			JENKINS_ITEM_UPDATED,
+			JENKINS_ITEM_RENAMED,
+			JENKINS_JOB_STARTED,
 	};
 	
 	private static ExtremeNotificationPlugin instance;
