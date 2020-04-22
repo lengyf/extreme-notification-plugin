@@ -1,19 +1,14 @@
 package org.jenkinsci.plugins.extremenotification;
 
-import static org.jenkinsci.plugins.extremenotification.ExtremeNotificationPlugin.JENKINS_JOB_COMPLETED;
-import static org.jenkinsci.plugins.extremenotification.ExtremeNotificationPlugin.JENKINS_JOB_DELETED;
-import static org.jenkinsci.plugins.extremenotification.ExtremeNotificationPlugin.JENKINS_JOB_FINALIZED;
-import static org.jenkinsci.plugins.extremenotification.ExtremeNotificationPlugin.JENKINS_JOB_STARTED;
-import static org.jenkinsci.plugins.extremenotification.ExtremeNotificationPlugin.JENKINS_MATRIX_CONFIG_COMPLETED;
-import static org.jenkinsci.plugins.extremenotification.ExtremeNotificationPlugin.JENKINS_MATRIX_CONFIG_DELETED;
-import static org.jenkinsci.plugins.extremenotification.ExtremeNotificationPlugin.JENKINS_MATRIX_CONFIG_FINALIZED;
-import static org.jenkinsci.plugins.extremenotification.ExtremeNotificationPlugin.JENKINS_MATRIX_CONFIG_STARTED;
 import hudson.Extension;
 import hudson.matrix.MatrixRun;
-import hudson.model.TaskListener;
 import hudson.model.Run;
+import hudson.model.TaskListener;
 import hudson.model.listeners.RunListener;
 import jenkins.YesNoMaybe;
+
+import static org.jenkinsci.plugins.extremenotification.ExtremeNotificationPlugin.*;
+
 
 @Extension(dynamicLoadable=YesNoMaybe.YES, optional = true)
 public class NotificationRunListener extends RunListener<Run<?, ?>> {

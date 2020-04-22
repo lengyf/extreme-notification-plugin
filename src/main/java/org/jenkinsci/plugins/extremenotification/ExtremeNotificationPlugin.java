@@ -1,28 +1,25 @@
 package org.jenkinsci.plugins.extremenotification;
 
-import static hudson.init.InitMilestone.PLUGINS_STARTED;
+import com.google.common.collect.Maps;
 import hudson.Plugin;
 import hudson.init.Initializer;
 import hudson.model.Descriptor;
 import hudson.model.Descriptor.FormException;
 import hudson.util.DescribableList;
+import jenkins.model.Jenkins;
 import jenkins.util.Timer;
+import net.sf.json.JSONObject;
+import org.jenkinsci.plugins.extremenotification.NotificationEndpoint.EndpointEvent;
+import org.jenkinsci.plugins.scriptsecurity.sandbox.whitelists.Whitelisted;
+import org.kohsuke.stapler.StaplerRequest;
 
+import javax.servlet.ServletException;
 import java.io.IOException;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.servlet.ServletException;
-
-import jenkins.model.Jenkins;
-import net.sf.json.JSONObject;
-
-import org.jenkinsci.plugins.extremenotification.NotificationEndpoint.EndpointEvent;
-import org.jenkinsci.plugins.scriptsecurity.sandbox.whitelists.Whitelisted;
-import org.kohsuke.stapler.StaplerRequest;
-
-import com.google.common.collect.Maps;
+import static hudson.init.InitMilestone.PLUGINS_STARTED;
 
 public class ExtremeNotificationPlugin extends Plugin {
 	
@@ -40,11 +37,13 @@ public class ExtremeNotificationPlugin extends Plugin {
 
 	static final String JENKINS_JOB_FINALIZED = "job_finalized";
 
+	static final String JENKINS_JOB_COMPLETED = "job_completed";
 
-	
-	static final String JENKINS_BUILD_STEP_START = "jenkins.build.step.start";
-	
-	static final String JENKINS_BUILD_STEP_FINISH = "jenkins.build.step.finish";
+	static final String JENKINS_STEP_STARTED = "job_step_started";
+
+	static final String JENKINS_BUILD_STEP_START = "job_step_start";
+
+	static final String JENKINS_BUILD_STEP_FINISH = "job_step_finish";
 
 	static final String JENKINS_COMPUTER_CONFIGURATION = "jenkins.computer.configuration";
 	
@@ -63,8 +62,6 @@ public class ExtremeNotificationPlugin extends Plugin {
 	static final String JENKINS_ITEM_COPIED = "jenkins.job.copied";
 
 	static final String JENKINS_LOADED = "jenkins.loaded";
-	
-	static final String JENKINS_JOB_COMPLETED = "jenkins.job.completed";
 	
 	static final String JENKINS_JOB_DELETED = "jenkins.job.deleted";
 
@@ -120,6 +117,9 @@ public class ExtremeNotificationPlugin extends Plugin {
 			JENKINS_ITEM_UPDATED,
 			JENKINS_ITEM_RENAMED,
 			JENKINS_JOB_STARTED,
+			JENKINS_JOB_FINALIZED,
+			JENKINS_JOB_COMPLETED,
+			JENKINS_STEP_STARTED
 	};
 	
 	private static ExtremeNotificationPlugin instance;

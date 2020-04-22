@@ -1,14 +1,20 @@
 package org.jenkinsci.plugins.extremenotification;
 
-import static org.apache.commons.httpclient.util.URIUtil.encodeQuery;
-import static org.jenkinsci.plugins.extremenotification.ExtremeNotificationPlugin.*;
-
+import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import hudson.Extension;
-import hudson.model.AbstractBuild;
 import hudson.model.Item;
 import hudson.model.Run;
 import jenkins.util.Timer;
+import net.sf.json.JSONObject;
+import org.apache.commons.httpclient.URIException;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.jenkinsci.plugins.extremenotification.ExtremeNotificationPlugin.*;
+import org.kohsuke.stapler.DataBoundConstructor;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -18,20 +24,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import net.sf.json.JSONObject;
-
-import org.apache.commons.httpclient.URIException;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.HttpConnectionParams;
-import org.jenkinsci.plugins.extremenotification.ExtremeNotificationPlugin.Event;
-import org.kohsuke.stapler.DataBoundConstructor;
-
-import com.google.common.collect.Maps;
+import static org.apache.commons.httpclient.util.URIUtil.encodeQuery;
+import static org.jenkinsci.plugins.extremenotification.ExtremeNotificationPlugin.*;
 
 @Extension
 public class WebHookNotificationEndpoint extends NotificationEndpoint {
@@ -125,9 +119,12 @@ public class WebHookNotificationEndpoint extends NotificationEndpoint {
 
 		switch (event.getName()) {
 			case JENKINS_JOB_STARTED:
+			case JENKINS_JOB_COMPLETED:
 			case JENKINS_JOB_FINALIZED:
+			case JENKINS_STEP_STARTED:
+			case JENKINS_BUILD_STEP_FINISH:
 				run = (Run<?, ?>) args.get("run");
-				jobHook = new HookJobRequest(((AbstractBuild) run).getProject().getName());
+				jobHook = new HookJobRequest(run.getParent().getName());
 				runHook = new HookRunRequest(run.number);
 				hook.setJob(jobHook);
 				hook.setRun(runHook);
@@ -164,7 +161,26 @@ public class WebHookNotificationEndpoint extends NotificationEndpoint {
 		private HookRunRequest run;
 		private HookJobRequest job;
 		private HookRenameRequest rename;
-		private String driver;
+
+		public HookStepRequest getStep() {
+			return step;
+		}
+
+		public void setStep(HookStepRequest step) {
+			this.step = step;
+		}
+
+		private HookStepRequest step;
+
+		public String getDriver() {
+			return driver;
+		}
+
+		public void setDriver(String driver) {
+			this.driver = driver;
+		}
+
+		private String driver = "jenkins";
 
 		public HookJobRequest getJob() {
 			return job;
@@ -180,10 +196,6 @@ public class WebHookNotificationEndpoint extends NotificationEndpoint {
 
 		public void setRename(HookRenameRequest rename) {
 			this.rename = rename;
-		}
-
-		public String getDriver() {
-			return "jenkins";
 		}
 	}
 
@@ -203,6 +215,24 @@ public class WebHookNotificationEndpoint extends NotificationEndpoint {
 			this.number = number;
 		}
 	}
+
+	private class HookStepRequest implements Serializable {
+
+		public String getId() {
+			return id;
+		}
+
+		public void setId(String id) {
+			this.id = id;
+		}
+
+		private String id;
+
+		private HookStepRequest(String id) {
+			this.id = id;
+		}
+	}
+
 
 
 	private class HookJobRequest implements Serializable {
