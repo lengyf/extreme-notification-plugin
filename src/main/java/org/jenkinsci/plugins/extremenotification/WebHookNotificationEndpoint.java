@@ -4,6 +4,7 @@ import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import hudson.Extension;
 import hudson.model.Item;
+import hudson.model.Result;
 import hudson.model.Run;
 import jenkins.util.Timer;
 import net.sf.json.JSONObject;
@@ -124,8 +125,35 @@ public class WebHookNotificationEndpoint extends NotificationEndpoint {
 			case JENKINS_STEP_STARTED:
 			case JENKINS_BUILD_STEP_FINISH:
 				run = (Run<?, ?>) args.get("run");
-				jobHook = new HookJobRequest(run.getParent().getName(), run.getParent().getFullName());
-				runHook = new HookRunRequest(run.number);
+				jobHook = new HookJobRequest();
+				jobHook.setBuildable(run.getParent().isBuildable());
+				jobHook.setBuilding(run.getParent().isBuilding());
+				jobHook.setDescription(run.getParent().getDescription());
+				jobHook.setDisplayName(run.getParent().getDisplayName());
+				jobHook.setFullName(run.getParent().getFullName());
+				jobHook.setFullDisplayName(run.getParent().getFullDisplayName());
+				jobHook.setId(run.getParent().getName());
+				jobHook.setName(run.getParent().getName());
+				jobHook.setInQueue(run.getParent().isInQueue());
+				jobHook.setNameEditable(run.getParent().isNameEditable());
+				jobHook.setUrl(run.getParent().getUrl());
+				jobHook.setAbsoluteUrl(run.getParent().getAbsoluteUrl());
+				runHook = new HookRunRequest();
+				runHook.setNumber(run.getNumber());
+                runHook.setBuilding(run.isBuilding());
+                runHook.setDescription(run.getDescription());
+                runHook.setDisplayName(run.getDisplayName());
+                runHook.setFullDisplayName(run.getFullDisplayName());
+                runHook.setId(run.getId());
+                runHook.setExternalizableId(run.getExternalizableId());
+                runHook.setCreateTime(run.getTimeInMillis());
+                runHook.setStartTime(run.getStartTimeInMillis());
+                runHook.setDuration(run.getDuration());
+                runHook.setBuildStatusUrl(run.getBuildStatusUrl());
+                runHook.setLogUpdated(run.isLogUpdated());
+                runHook.setNotStarted(run.hasntStartedYet());
+                runHook.setResult(run.getResult());
+                runHook.setUrl(run.getUrl());
 				hook.setJob(jobHook);
 				hook.setRun(runHook);
 				break;
@@ -133,7 +161,14 @@ public class WebHookNotificationEndpoint extends NotificationEndpoint {
 			case JENKINS_ITEM_UPDATED:
 			case JENKINS_ITEM_DELETED:
 				item = (Item) args.get("item");
-				jobHook = new HookJobRequest(item.getName(), item.getFullName());
+				jobHook = new HookJobRequest();
+                jobHook.setDisplayName(item.getDisplayName());
+                jobHook.setFullName(item.getFullName());
+                jobHook.setFullDisplayName(item.getFullDisplayName());
+                jobHook.setId(item.getName());
+                jobHook.setName(item.getName());
+                jobHook.setUrl(item.getUrl());
+                jobHook.setAbsoluteUrl(item.getAbsoluteUrl());
 				hook.setJob(jobHook);
 				break;
 			case JENKINS_ITEM_RENAMED:
@@ -209,11 +244,147 @@ public class WebHookNotificationEndpoint extends NotificationEndpoint {
 			this.number = number;
 		}
 
-		private int number;
+        public long getStartTime() {
+            return startTime;
+        }
 
-		private HookRunRequest(int number) {
-			this.number = number;
-		}
+        public void setStartTime(long startTime) {
+            this.startTime = startTime;
+        }
+
+        public long getDuration() {
+            return duration;
+        }
+
+        public void setDuration(long duration) {
+            this.duration = duration;
+        }
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public String getExternalizableId() {
+            return externalizableId;
+        }
+
+        public void setExternalizableId(String externalizableId) {
+            this.externalizableId = externalizableId;
+        }
+
+        public long getCreateTime() {
+            return createTime;
+        }
+
+        public void setCreateTime(long createTime) {
+            this.createTime = createTime;
+        }
+
+        public Result getResult() {
+            return result;
+        }
+
+        public void setResult(Result result) {
+            this.result = result;
+        }
+
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
+
+        public String getDisplayName() {
+            return displayName;
+        }
+
+        public void setDisplayName(String displayName) {
+            this.displayName = displayName;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public void setDescription(String description) {
+            this.description = description;
+        }
+
+        public String getFullDisplayName() {
+            return fullDisplayName;
+        }
+
+        public void setFullDisplayName(String fullDisplayName) {
+            this.fullDisplayName = fullDisplayName;
+        }
+
+        public String getBuildStatusUrl() {
+            return buildStatusUrl;
+        }
+
+        public void setBuildStatusUrl(String buildStatusUrl) {
+            this.buildStatusUrl = buildStatusUrl;
+        }
+
+        public boolean isNotStarted() {
+            return notStarted;
+        }
+
+        public void setNotStarted(boolean notStarted) {
+            this.notStarted = notStarted;
+        }
+
+        public boolean isBuilding() {
+            return building;
+        }
+
+        public void setBuilding(boolean building) {
+            this.building = building;
+        }
+
+        public boolean isLogUpdated() {
+            return logUpdated;
+        }
+
+        public void setLogUpdated(boolean logUpdated) {
+            this.logUpdated = logUpdated;
+        }
+
+        private String id;
+
+        private String externalizableId;
+
+        private int number;
+
+        private long createTime;
+
+        private long startTime;
+
+        private long duration;
+
+        private Result result;
+
+        private String url;
+
+        private String displayName;
+
+        private String description;
+
+        private String fullDisplayName;
+
+        private String buildStatusUrl;
+
+        private boolean notStarted;
+
+        private boolean building;
+
+        private boolean logUpdated;
 	}
 
 	private class HookStepRequest implements Serializable {
@@ -234,7 +405,6 @@ public class WebHookNotificationEndpoint extends NotificationEndpoint {
 	}
 
 
-
 	private class HookJobRequest implements Serializable {
 		public String getId() {
 			return id;
@@ -252,14 +422,109 @@ public class WebHookNotificationEndpoint extends NotificationEndpoint {
 			this.fullName = fullName;
 		}
 
-		private String id;
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getDisplayName() {
+            return displayName;
+        }
+
+        public void setDisplayName(String displayName) {
+            this.displayName = displayName;
+        }
+
+        public String getFullDisplayName() {
+            return fullDisplayName;
+        }
+
+        public void setFullDisplayName(String fullDisplayName) {
+            this.fullDisplayName = fullDisplayName;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public void setDescription(String description) {
+            this.description = description;
+        }
+
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
+
+        public String getAbsoluteUrl() {
+            return absoluteUrl;
+        }
+
+        public void setAbsoluteUrl(String absoluteUrl) {
+            this.absoluteUrl = absoluteUrl;
+        }
+
+        public boolean isNameEditable() {
+            return nameEditable;
+        }
+
+        public void setNameEditable(boolean nameEditable) {
+            this.nameEditable = nameEditable;
+        }
+
+        public boolean isBuildable() {
+            return buildable;
+        }
+
+        public void setBuildable(boolean buildable) {
+            this.buildable = buildable;
+        }
+
+        public boolean isBuilding() {
+            return building;
+        }
+
+        public void setBuilding(boolean building) {
+            this.building = building;
+        }
+
+        public boolean isInQueue() {
+            return inQueue;
+        }
+
+        public void setInQueue(boolean inQueue) {
+            this.inQueue = inQueue;
+        }
+
+        private String id;
+
+		private String name;
+
+		private String displayName;
 
 		private String fullName;
 
-		private HookJobRequest(String id, String fullName) {
-			this.id = id;
-			this.fullName = fullName;
-		}
+		private String fullDisplayName;
+
+		private String description;
+
+		private String url;
+
+		private String absoluteUrl;
+
+		private boolean nameEditable;
+
+		private boolean buildable;
+
+		private boolean building;
+
+		private boolean inQueue;
 	}
 
 	private class HookRenameRequest implements Serializable {
