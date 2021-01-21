@@ -13,7 +13,6 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.jenkinsci.plugins.extremenotification.ExtremeNotificationPlugin.*;
 import org.kohsuke.stapler.DataBoundConstructor;
 
 import java.io.IOException;
@@ -89,6 +88,7 @@ public class WebHookNotificationEndpoint extends NotificationEndpoint {
 			StringEntity entity = new StringEntity(hookRequestJsonStr);
 			post.setEntity(entity);
 			Timer.get().schedule(new Runnable() {
+				@Override
 				public void run() {
 					post.abort();
 				}
@@ -124,7 +124,7 @@ public class WebHookNotificationEndpoint extends NotificationEndpoint {
 			case JENKINS_STEP_STARTED:
 			case JENKINS_BUILD_STEP_FINISH:
 				run = (Run<?, ?>) args.get("run");
-				jobHook = new HookJobRequest(run.getParent().getName());
+				jobHook = new HookJobRequest(run.getParent().getName(), run.getParent().getFullName());
 				runHook = new HookRunRequest(run.number);
 				hook.setJob(jobHook);
 				hook.setRun(runHook);
@@ -133,7 +133,7 @@ public class WebHookNotificationEndpoint extends NotificationEndpoint {
 			case JENKINS_ITEM_UPDATED:
 			case JENKINS_ITEM_DELETED:
 				item = (Item) args.get("item");
-				jobHook = new HookJobRequest(item.getName());
+				jobHook = new HookJobRequest(item.getName(), item.getFullName());
 				hook.setJob(jobHook);
 				break;
 			case JENKINS_ITEM_RENAMED:
@@ -244,10 +244,21 @@ public class WebHookNotificationEndpoint extends NotificationEndpoint {
 			this.id = id;
 		}
 
+		public String getFullName() {
+			return fullName;
+		}
+
+		public void setFullName(String fullName) {
+			this.fullName = fullName;
+		}
+
 		private String id;
 
-		private HookJobRequest(String id) {
+		private String fullName;
+
+		private HookJobRequest(String id, String fullName) {
 			this.id = id;
+			this.fullName = fullName;
 		}
 	}
 
@@ -286,7 +297,8 @@ public class WebHookNotificationEndpoint extends NotificationEndpoint {
 	
 	@Extension
     public static final class DescriptorImpl extends NotificationEndpoint.DescriptorImpl {
-		
+
+		@Override
         public String getDisplayName() {
             return Messages.WebHookNotificationEndpoint_DisplayName();
         }
